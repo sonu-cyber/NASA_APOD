@@ -59,6 +59,10 @@ body {
   
 }
 
+.clickable:hover {
+  color:rgb(54, 233, 135);
+}
+
 
 /* Images Container */
 .images-container {
