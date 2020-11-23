@@ -22,7 +22,7 @@ body {
 
 /* Loader */
 .loader {
-  background:whitesmokegit;
+  background:whitesmoke;
   width:100vw;
   height:100vh;
   position:fixed;
@@ -56,13 +56,12 @@ body {
   color:skyblue;
   cursor: pointer;
   user-select: none;
-  
+ 
 }
 
 .clickable:hover {
   color:rgb(54, 233, 135);
 }
-
 
 /* Images Container */
 .images-container {
@@ -72,6 +71,7 @@ body {
 }
 
 .card {
+  width:800px;
   background: white;
   margin: 10px 10px 20px;
   border-radius: 5px;
@@ -83,13 +83,14 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-.car-img-top {
+.card-img-top {
   width:100%;
   height:auto;
   border-radius: 5px 5px 0px 0px;
 }
 
 .card-body {
+  overflow:visible;
   padding: 20px;
 }
 
@@ -97,8 +98,6 @@ body {
   margin: 10px auto;
   font-size: 24px;
 }
-
-
 
 /* Save Confirmation */
 .save-confirmed {
