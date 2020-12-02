@@ -8,9 +8,11 @@ const loader = document.querySelector('.loader');
 
 
 const apiKey = 'DEMO_KEY';
-const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
+ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
 
 let resultsArray = [];
+let favorites = {};
+
 function updateDOM() {
   resultsArray.forEach((result) => {
     //Card Container
@@ -19,11 +21,13 @@ function updateDOM() {
     //Link 
     const link = document.createElement('a');
     link.href = result.hdurl;
+    
     link.title = 'View Full Image';
     link.target = '_blank';
     //Image
     const image = document.createElement('img');
-    image.src = ressult.url;
+    image.src = result.url;
+    
     image.alt = 'NASA Picture of The Day';
     image.loading = 'lazy';
     image.classList.add('card-image-top');
@@ -38,6 +42,7 @@ function updateDOM() {
     const saveText = document.createElement('p');
     saveText.classList.add('clickable');
     saveText.textContent = "Add to favorites";
+    saveText.setAttribute('onclick',`saveFavorite('${result.url}')`);
     //card text
     const cardText = document.createElement('p');
     cardText.textContent = result.explanation;
@@ -45,18 +50,22 @@ function updateDOM() {
     //Footer container
     const footer = document.createElement('small');
     footer.classList.add('text-muted');
+    
     //Date
     const date = document.createElement('strong');
     date.textContent = result.date;
+   
     //copyright
+    const copyrightResult = result.copyright === undefined ? '':result.copyright;
     const copyright = document.createElement('span');
-    copyright.textContent = `${result.copyright}`;
+    copyright.textContent = ` ${copyrightResult}`;
+   
     //Append
     footer.append(date, copyright);
     cardBody.append(cardTitle,saveText,cardText,footer);
     link.appendChild(image);
     card.append(link,cardBody);
-    //console.log(card);
+    console.log(card);
     imagesContainer.appendChild(card);
   });
 }
@@ -65,7 +74,7 @@ function updateDOM() {
 async function getNasaPictures() {
   try {
     const response = await fetch(apiUrl);
-    resultsArray = response.json();
+    resultsArray = await response.json();
     //Create the card & Rest using DOM
     console.log(resultsArray);
     updateDOM();
@@ -74,6 +83,21 @@ async function getNasaPictures() {
     // Catch error here
     //console.log('Error', error);
   }
+}
+//Add result to Favorites
+function saveFavorite(itemUrl){
+  //loop through resultsArray to select favorite
+  resultsArray.forEach((item) => {
+    if(item.url.includes(itemUrl)) {
+      favorites[itemUrl] = item;
+      console.log(favorites);
+      //Show save confirmation for 2 secs
+      saveConfirmed.hidden = false;
+      setTimeout(() => {
+        saveConfirmed.hidden=true;
+      },2000)
+    }
+  })
 }
 //On load Get the NASA pictures
 getNasaPictures(); 
