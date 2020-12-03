@@ -13,8 +13,10 @@ const apiKey = 'DEMO_KEY';
 let resultsArray = [];
 let favorites = {};
 
-function updateDOM() {
-  resultsArray.forEach((result) => {
+function createDOMNodes(page) {
+  const currentArray = page === 'results' ? resultsArray : Object.values(favorites); 
+  console.log('currentArray is', page, currentArray);
+  currentArray.forEach((result) => {
     //Card Container
     const card = document.createElement('div');
     card.classList.add('card');
@@ -41,8 +43,14 @@ function updateDOM() {
     //Save Text
     const saveText = document.createElement('p');
     saveText.classList.add('clickable');
-    saveText.textContent = "Add to favorites";
-    saveText.setAttribute('onclick',`saveFavorite('${result.url}')`);
+    if(page === 'results') {
+      saveText.textContent = "Add to favorites";
+      saveText.setAttribute('onclick',`saveFavorite('${result.url}')`);
+    } else {
+      saveText.textContent = "Remove favorite";
+      saveText.setAttribute('onclick',`removeFavorite('${result.url}')`);
+    }
+    
     //card text
     const cardText = document.createElement('p');
     cardText.textContent = result.explanation;
@@ -70,14 +78,24 @@ function updateDOM() {
   });
 }
 
+function updateDOM(page) {
+  
+  //get Favorites from local storage
+  if(localStorage.getItem('nasaFavorites')) {
+    favorites = JSON.parse(localStorage.getItem('nasaFavorites'))
+    console.log('favorites from localstorage',favorites );
+  }
+  createDOMNodes(page);
+}
+
 //Get 10 Images from NASA API
 async function getNasaPictures() {
   try {
     const response = await fetch(apiUrl);
     resultsArray = await response.json();
     //Create the card & Rest using DOM
-    console.log(resultsArray);
-    updateDOM();
+    //console.log(resultsArray);
+    updateDOM('favorites');
   }
   catch(error) {
     // Catch error here
@@ -87,15 +105,18 @@ async function getNasaPictures() {
 //Add result to Favorites
 function saveFavorite(itemUrl){
   //loop through resultsArray to select favorite
-  resultsArray.forEach((item) => {
-    if(item.url.includes(itemUrl)) {
+  resultsArray.forEach((item) => { 
+    if(item.url.includes(itemUrl ) && !favorites[itemUrl]) {
       favorites[itemUrl] = item;
-      console.log(favorites);
+     //console.log(JSON.stringify(favorites));
       //Show save confirmation for 2 secs
       saveConfirmed.hidden = false;
       setTimeout(() => {
         saveConfirmed.hidden=true;
-      },2000)
+      },2000),
+      //Set Favorites in Local Storage
+      favorites = localStorage.setItem('nasaFavorites',JSON.stringify(favorites));
+     
     }
   })
 }
