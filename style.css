@@ -86,6 +86,7 @@ body {
   height:auto;
   border-radius: 5px 5px 0 0;
   
+  
 }
 
 
@@ -117,8 +118,8 @@ body {
   display:none;
 }
 
-/* Large Smartphone (Vertical) */
-@media screen and (max-width: 800px) {
+/* Laptop, Desktop,Large Smart Phones */
+@media screen and (max-width: 1200px) {
   body {
     line-height: 1.4rem;
     font-size: 0.9rem;
@@ -126,6 +127,11 @@ body {
 
   }
   .images-container {
+    width:100%; 
+   
+  }
+
+  img {
     width:100%;
   }
 
@@ -137,6 +143,66 @@ body {
   .save-confirmed {
     right:25px;
   }
+/* Smaller Phones*/
+  @media screen and (max-width: 600px) {
+    body {
+      line-height: 1.2rem;
+      font-size: 0.6rem;
+      text-align: justify;
+  
+    }
+    .images-container {
+      width:100%; 
+     
+    }
+
+    img {
+      width:100%;
+    }
+
+    .card {
+      background:rgb(202, 240, 228);
+    }
+  
+  
+    .card-title {
+      font-size: 14px;
+    }
+  
+    .save-confirmed {
+      right:20px;
+    }
+
+    /* Small Smart Phones */
+    @media screen and (max-width: 400px) {
+      body {
+        line-height: 1.0rem;
+        font-size: 0.4rem;
+        text-align: justify;
+    
+      }
+      .images-container {
+        width:100%; 
+              
+      }
+
+      img {
+        width:100%;
+      }
+      
+      .card {
+        background:rgb(238, 199, 222);
+      }
+    
+    
+    
+      .card-title {
+        font-size: 12px;
+      }
+    
+      .save-confirmed {
+        right:15px;
+      }
 
   
 }
