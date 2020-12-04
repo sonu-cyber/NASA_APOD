@@ -92,11 +92,13 @@ function updateDOM(page) {
 //Get 10 Images from NASA API
 async function getNasaPictures() {
   try {
+    //Show loader
+    loader.classList.remove('hidden');
     const response = await fetch(apiUrl);
     resultsArray = await response.json();
     //Create the card & Rest using DOM
     //console.log(resultsArray);
-    updateDOM('favorites');
+    updateDOM('re');
   }
   catch(error) {
     // Catch error here
