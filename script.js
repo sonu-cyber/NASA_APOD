@@ -85,6 +85,7 @@ function updateDOM(page) {
     favorites = JSON.parse(localStorage.getItem('nasaFavorites'))
     console.log('favorites from localstorage',favorites );
   }
+  imagesContainer.textContent = '';
   createDOMNodes(page);
 }
 
@@ -119,6 +120,15 @@ function saveFavorite(itemUrl){
      
     }
   })
+}
+// Remove favorite
+function removeFavorite(itemUrl) {
+  if(favorites[itemUrl]) {
+    delete favorites[itemUrl];
+    //Set favorites in local storage
+    favorites = localStorage.setItem('nasaFavorites',JSON.stringify(favorites));
+    updateDOM('favorites');
+  }
 }
 //On load Get the NASA pictures
 getNasaPictures(); 
