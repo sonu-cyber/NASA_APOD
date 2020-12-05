@@ -1,3 +1,4 @@
+
 //NASA API
 const count = 10;
 const resultsNav = document.getElementById('resultsNav');
@@ -12,6 +13,20 @@ const apiKey = 'DEMO_KEY';
 
 let resultsArray = [];
 let favorites = {};
+
+function showContent(page){
+  window.scrollTo({top:0, behavior:'instant'});
+ 
+  if(page === 'results'){
+    resultsNav.classList.remove('hidden');
+    favoritesNav.classList.add('hidden');
+  } else {
+    resultsNav.classList.add('hidden');
+    favoritesNav.classList.remove('hidden');
+  }
+  loader.classList.add('hidden');
+}
+  
 
 function createDOMNodes(page) {
   const currentArray = page === 'results' ? resultsArray : Object.values(favorites); 
@@ -87,6 +102,7 @@ function updateDOM(page) {
   }
   imagesContainer.textContent = '';
   createDOMNodes(page);
+  showContent(page);
 }
 
 //Get 10 Images from NASA API
@@ -98,7 +114,7 @@ async function getNasaPictures() {
     resultsArray = await response.json();
     //Create the card & Rest using DOM
     //console.log(resultsArray);
-    updateDOM('re');
+    updateDOM('results');
   }
   catch(error) {
     // Catch error here
@@ -119,6 +135,7 @@ function saveFavorite(itemUrl){
       },2000),
       //Set Favorites in Local Storage
       favorites = localStorage.setItem('nasaFavorites',JSON.stringify(favorites));
+      updateDOM('favorites');
      
     }
   })
@@ -133,4 +150,5 @@ function removeFavorite(itemUrl) {
   }
 }
 //On load Get the NASA pictures
+
 getNasaPictures(); 
